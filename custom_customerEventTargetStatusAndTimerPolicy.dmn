@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions id="customerEventTargetStatusAndTimerPolicy"
+             name="customerEventTargetStatusAndTimerPolicy"
+             namespace="https://www.amdocs.com/dmn"
+             xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd"
+             xmlns:kie="https://www.amdocs.com/dmn"
+             xmlns:feel="http://www.omg.org/spec/FEEL/20140401">
+    <extensionElements/>
+    <!-- Decision for state change policy -->
+    <decision id="decId_customerEventTargetStatusAndTimerPolicy" name="decName_customerEventTargetStatusAndTimerPolicy">
+        <!-- Name of the DMN output variable must not be changed -->
+        <variable id="varId_customerEventTargetStatusAndTimerPolicy" name="varName_decisionResult" typeRef="kie:resultObject"/>
+        <informationRequirement>
+            <!-- Below input refers to inputData id -->
+            <requiredInput href="#currentStatusId"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#actionId"/>
+        </informationRequirement>
+        <!-- for customization -->
+        <!-- <informationRequirement>
+            <requiredInput href="#GlobalContextParam"/>
+        </informationRequirement> -->
+
+        <!-- Decision Table Definition -->
+        <decisionTable id="decTbl_customerEventTargetStatusAndTimerPolicy">
+            <!-- <text> value defined below must be mapped with its respective inputData name - must not be changed -->
+            <input id="decTblInputId_currentStatus">
+                <inputExpression typeRef="feel:string">
+                    <text>lower case(currentStatus)</text>
+                </inputExpression>
+            </input>
+            <input id="decTblInputId_action">
+                <inputExpression typeRef="feel:string">
+                    <text>action</text>
+                </inputExpression>
+            </input>
+            <!-- customization support through GlobalContextParam -->
+            <!-- <input id="decTblInputId_financialAccountWithBusRelExists">
+              <inputExpression typeRef="feel:boolean">
+                <text>GlobalContextParam.financialAccountWithBusRelExists</text>
+              </inputExpression>
+            </input> -->
+
+            <output id="Target" label="target" name="target" typeRef="feel:string" />
+            <output id="Reason" label="reason" name="reason" typeRef="feel:string" />
+            <output id="StatusTransitionDelayInDays" label="statusTransitionDelayInDays" name="statusTransitionDelayInDays" typeRef="feel:string" />
+            <!--<rule id="DecisionRule_0t9q3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"CustomerEntityResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"Inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>-->
+            <rule id="DecisionRule_0t9q3q18qw">
+                <inputEntry id="UnaryTests_0al4arfwqa">
+                    <text>"created"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_192l1ylsds">
+                    <text>"CustomerEntityResourceCreate"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyuas">
+                    <text>"closed"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"dueToInactivity"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"90"</text>
+                </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9q3q18">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"created"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_192l1yls">
+                    <text>"ProductOrderSubmittedNotification"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"active"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"orderPlaced"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"0"</text>
+                </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9q3q18">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"inactive"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_192l1yls">
+                    <text>"ProductOrderSubmittedNotification"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"active"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"billingAccountCreated"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"0"</text>
+                </outputEntry>
+            </rule>
+            <!-- <rule id="DecisionRule_0t9q3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"ProductOrderSubmittedNotification"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9q3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"ProductOrderResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9q3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"ProductOrderResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t8q3q218">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_12l1yls">
+                <text>"BillingAccountResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>-->
+            <rule id="DecisionRule_0t8q3q218">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"inactive"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_12l1yls">
+                    <text>"BillingAccountResourceCreate"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"active"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"billingAccountCreated"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"0"</text>
+                </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t8q3q218">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"inactive"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_12l1yls">
+                    <text>"CustomerStateChangeNotification"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"closed"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"closedNoBusinessRelationship"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"120"</text>
+                </outputEntry>
+            </rule>
+
+            <!-- <rule id="DecisionRule_0t8q3q218">
+               <inputEntry id="UnaryTests_0al4arf">
+                 <text>"active"</text>
+               </inputEntry>
+               <inputEntry id="UnaryTests_12l1yls">
+                 <text>"CustomerStateChangeNotification"</text>
+               </inputEntry>
+               <outputEntry id="LiteralExpression_18k0oyu">
+                 <text>"inactive"</text>
+               </outputEntry>
+               <outputEntry id="LiteralExpression_1lj61im">
+                 <text>"Customer was updated"</text>
+               </outputEntry>
+               <outputEntry id="TransitionDays_id1">
+                 <text>"60"</text>
+               </outputEntry>
+             </rule>
+             <rule id="DecisionRule_0t8q3q218">
+               <inputEntry id="UnaryTests_0al4arf">
+                 <text>"active"</text>
+               </inputEntry>
+               <inputEntry id="UnaryTests_12l1yls">
+                 <text>"FinancialAccountResourceUpdate"</text>
+               </inputEntry>
+               <outputEntry id="LiteralExpression_18k0oyu">
+                 <text>"inactive"</text>
+               </outputEntry>
+               <outputEntry id="LiteralExpression_1lj61im">
+                 <text>"Reason1"</text>
+               </outputEntry>
+               <outputEntry id="TransitionDays_id1">
+                 <text>"30"</text>
+               </outputEntry>
+             </rule>-->
+
+            <!-- <rule id="DecisionRule_0t8q3q218">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"inactive"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_12l1yls">
+                    <text>"FinancialAccountResourceCreate"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"active"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"Financial Account created"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"0"</text>
+                </outputEntry>
+            </rule> -->
+
+            <!-- <rule id="DecisionRule_0t8q3q218">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_12l1yls">
+                <text>"FinancialAccountResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+             <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"inactive"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"active"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"0"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+             <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"inactive"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"active"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"0"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+             <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"inactive"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentMethodResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"active"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"0"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentMethodResourceCreate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+             <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"inactive"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentMethodResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"active"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"0"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"active"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"PaymentMethodResourceUpdate"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"inactive"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"CustomerUpdateFailure"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"inactive"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"30"</text>
+              </outputEntry>
+            </rule>
+            <rule id="DecisionRule_0t9sq3q18">
+              <inputEntry id="UnaryTests_0al4arf">
+                <text>"closed"</text>
+              </inputEntry>
+              <inputEntry id="UnaryTests_192l1yls">
+                <text>"CustomerUpdateFailure"</text>
+              </inputEntry>
+              <outputEntry id="LiteralExpression_18k0oyu">
+                <text>"closed"</text>
+              </outputEntry>
+              <outputEntry id="LiteralExpression_1lj61im">
+                <text>"Reason1"</text>
+              </outputEntry>
+              <outputEntry id="TransitionDays_id1">
+                <text>"60"</text>
+              </outputEntry>
+            </rule> -->
+
+            <rule id="DecisionRule_0t8q3q218">
+                <inputEntry id="UnaryTests_0al4arf">
+                    <text>"active"</text>
+                </inputEntry>
+                <inputEntry id="UnaryTests_12l1yls">
+                    <text>"FinancialAccountClosed"</text>
+                </inputEntry>
+                <outputEntry id="LiteralExpression_18k0oyu">
+                    <text>"inactive"</text>
+                </outputEntry>
+                <outputEntry id="LiteralExpression_1lj61im">
+                    <text>"dueToInactivity"</text>
+                </outputEntry>
+                <outputEntry id="TransitionDays_id1">
+                    <text>"0"</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <!-- Input data Definition name and id of currentStatus and action must not be changed-->
+    <inputData id="currentStatusId" name="currentStatus">
+        <variable id="varId_currentStatus" name="varName_currentStatus" typeRef="feel:string"/>
+    </inputData>
+    <inputData id="actionId" name="action">
+        <variable id="varId_action" name="varName_action" typeRef="feel:string"/>
+    </inputData>
+    <!-- <inputData id="GlobalContextParam" name="GlobalContextParam">
+       <variable name="GlobalContextParam" typeRef="kie:tglobalContext"/>
+     </inputData> -->
+
+    <itemDefinition id="_resultObject" name="resultObject">
+        <itemComponent id="_target" name="target">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent id="_reason" name="reason">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+        <itemComponent id="_statusTransitionDelayInDays" name="statusTransitionDelayInDays">
+            <typeRef>feel:string</typeRef>
+        </itemComponent>
+
+    </itemDefinition>
+    <!-- <itemDefinition id="itemDefinitionId_globalContext" name="tglobalContext">
+            <itemComponent id="_financialAccountWithBusRelExists" name="financialAccountWithBusRelExists">
+                <typeRef>feel:boolean</typeRef>
+            </itemComponent>
+        </itemDefinition> -->
+
+</definitions>
